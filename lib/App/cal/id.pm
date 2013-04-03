@@ -63,6 +63,7 @@ $SPEC{gen_monthly_calendar} = {
             schema => 'bool',
         },
     },
+    "_perinci.sub.wrapper.validate_args" => 1,
 };
 sub gen_monthly_calendar {
     my %args = @_; # VALIDATE_ARGS
@@ -153,6 +154,7 @@ $SPEC{gen_yearly_calendar} = {
             schema => 'bool',
         },
     },
+    "_perinci.sub.wrapper.validate_args" => 1,
 };
 sub gen_yearly_calendar {
     my %args = @_; # VALIDATE_ARGS
