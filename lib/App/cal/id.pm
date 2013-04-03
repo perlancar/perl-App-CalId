@@ -86,7 +86,7 @@ sub gen_monthly_calendar {
         push @lines, _center(21, sprintf("%s", $month_names->[$m-1]));
     }
 
-    push @lines, "Sn Sl Rb Km Ju Sb Mi"; # XXX use locale (but TBH locale's versions suck: Se Se Ra Ka Ju Sa Mi)
+    push @lines, "Sn Sl Rb Km Jm Sb Mi"; # XXX use locale (but TBH locale's versions suck: Se Se Ra Ka Ju Sa Mi)
 
     my $dow = $dt->day_of_week;
     $dt->subtract(days => $dow-1);
