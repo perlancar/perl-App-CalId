@@ -34,6 +34,12 @@ sub _rpad {
 
 $SPEC{gen_monthly_calendar} = {
     v => 1.1,
+    summary => 'Generate a single month calendar',
+    description => <<'_',
+
+Return [\@lines, \@hol]
+
+_
     args => {
         month => {
             schema => ['int*' => between => [1, 12]],
@@ -42,9 +48,6 @@ $SPEC{gen_monthly_calendar} = {
         year => {
             schema => ['int*'],
             req => 1,
-        },
-        show_title => {
-            schema => ['bool', default => 1],
         },
         show_year_in_title => {
             schema => ['bool', default => 1],
@@ -58,12 +61,12 @@ $SPEC{gen_monthly_calendar} = {
         show_holiday_list => {
             schema => ['bool', default => 1],
         },
-        return_array => {
-            summary => 'If set to true, return array of lines instead of string',
-            schema => 'bool',
+        highlight_today => {
+            schema => [bool => default => 1],
         },
     },
     "_perinci.sub.wrapper.validate_args" => 1,
+    result_naked => 1,
 };
 sub gen_monthly_calendar {
     my %args = @_; # VALIDATE_ARGS
@@ -76,14 +79,13 @@ sub gen_monthly_calendar {
     my $dt_today = DateTime->today;
     my $hol = list_id_holidays(year=>$y, month=>$m, is_joint_leave=>0, detail=>1)->[2];
 
-    if ($args{show_title} // 1) {
-        # XXX use locale
-        if ($args{show_year_in_title} // 1) {
-            push @lines, _center(21, sprintf("%s %d", $month_names->[$m-1], $y));
-        } else {
-            push @lines, _center(21, sprintf("%s", $month_names->[$m-1]));
-        }
+    # XXX use locale
+    if ($args{show_year_in_title} // 1) {
+        push @lines, _center(21, sprintf("%s %d", $month_names->[$m-1], $y));
+    } else {
+        push @lines, _center(21, sprintf("%s", $month_names->[$m-1]));
     }
+
     push @lines, "Sn Sl Rb Km Ju Sb Mi"; # XXX use locale (but TBH locale's versions suck: Se Se Ra Ka Ju Sa Mi)
 
     my $dow = $dt->day_of_week;
@@ -102,7 +104,7 @@ sub gen_monthly_calendar {
             push @lines, "";
         }
         my $col = "white";
-        if (DateTime->compare($dt, $dt_today) == 0) {
+        if (($args{highlight_today}//1) && DateTime->compare($dt, $dt_today) == 0) {
             $col = "reverse";
         } else {
             for (@$hol) {
@@ -122,86 +124,89 @@ sub gen_monthly_calendar {
         }
     }
 
-    if ($args{show_holiday_list} // 1) {
-        for my $i (0..@$hol-1) {
-            push @lines, "" if $i == 0;
-            push @lines, sprintf("%2d = %s", $hol->[$i]{day}, $hol->[$i]{ind_name});
-        }
-    }
-
-    if ($args{return_array}) {
-        return \@lines;
-    } else {
-        return join "\n", @lines;
-    }
+    return [\@lines, $hol];
 }
 
-$SPEC{gen_yearly_calendar} = {
+$SPEC{gen_calendar} = {
     v => 1.1,
+    summary => 'Generate one or more monthly calendars in 3-column format',
     args => {
+        months => {
+            schema => ['int*', min=>1, max=>12, default=>1],
+        },
         year => {
             schema => ['int*'],
             req => 1,
         },
-        show_title => {
-            schema => ['bool', default => 1],
+        month => {
+            summary => 'The first month',
+            schema => ['int*'],
+            description => <<'_',
+
+Not required if months=12 (generate whole year from month 1 to 12).
+
+_
         },
         show_holiday_list => {
             schema => ['bool', default => 1],
         },
-        return_array => {
-            summary => 'If set to true, return array of lines instead of string',
-            schema => 'bool',
+        highlight_today => {
+            schema => [bool => default => 1],
         },
     },
     "_perinci.sub.wrapper.validate_args" => 1,
 };
-sub gen_yearly_calendar {
+sub gen_calendar {
     my %args = @_; # VALIDATE_ARGS
-    my $y = $args{year};
+    my $y  = $args{year};
+    my $m  = $args{month};
+    my $mm = $args{months} // 1;
 
     my @lines;
-    my $hol = list_id_holidays(year=>$y, is_joint_leave=>0, detail=>1)->[2];
 
-    if ($args{show_title} // 1) {
-        push @lines, _center(67, $y);
-    }
+    my %margs = (
+        highlight_today => ($args{highlight_today} // 1),
+    );
 
-    my @moncals; # index starts from 1
-    for my $m (1..12) {
-        $moncals[$m] = gen_monthly_calendar(
-            month=>$m, year=>$y,
-            show_year_in_title   => 0,
-            show_holiday_list    => 0,
-            show_prev_month_days => 0,
-            show_next_month_days => 0,
-            return_array => 1,
-        );
+    if ($mm == 12 && !$m) {
+        $m = 1;
+        $margs{show_year_in_title} = 0;
+        push @lines, _center(64, $y);
     }
-    my $l = max(map {~~@$_} @moncals[1..12]);
-    for my $i (0..3) {
+    $m or return [400, "Please specify month"];
+
+    my @moncals;
+    my $dt = DateTime->new(year=>$y, month=>$m, day => 1);
+    for (1..$mm) {
+        push @moncals, gen_monthly_calendar(
+            month=>$dt->month, year=>$dt->year, %margs);
+        $dt->add(months => 1);
+    }
+    my @hol = map {@{ $_->[1] }} @moncals;
+    my $l = max(map {~~@$_} map {$_->[0]} @moncals);
+    my $i = 0;
+    my $j = @moncals;
+    while (1) {
         for (0..$l-1) {
             push @lines,
                 sprintf("%s %s %s",
-                        _rpad(21, $moncals[$i*3+1][$_]//""),
-                        _rpad(21, $moncals[$i*3+2][$_]//""),
-                        _rpad(21, $moncals[$i*3+3][$_]//""));
+                        _rpad(21, $moncals[$i+0][0][$_]//""),
+                        _rpad(21, $moncals[$i+1][0][$_]//""),
+                        _rpad(21, $moncals[$i+2][0][$_]//""));
         }
-        push @lines, "" unless $i == 3;
+        last if $i+3 >= $j;
+        $i += 3;
+        push @lines, "";
     }
 
     if ($args{show_holiday_list} // 1) {
-        for my $i (0..@$hol-1) {
+        for my $i (0..@hol-1) {
             push @lines, "" if $i == 0;
-            push @lines, sprintf("%2d %s = %s", $hol->[$i]{day}, $short_month_names->[$hol->[$i]{month}-1], $hol->[$i]{ind_name});
+            push @lines, sprintf("%2d %s = %s", $hol[$i]{day}, $short_month_names->[$hol[$i]{month}-1], $hol[$i]{ind_name});
         }
     }
 
-    if ($args{return_array}) {
-        return \@lines;
-    } else {
-        return join "\n", @lines;
-    }
+    [200, "OK", join("\n", @lines)];
 }
 
 1;
