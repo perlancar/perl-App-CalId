@@ -1,5 +1,12 @@
 Revision history for App-cal-id
 
+0.03    2013-04-03 (SHARYANTO)
+
+        No functional changes. Some display tweaks (short day of week names, not
+        showing prev/next month's days if we are showing more than one month of
+        calendar).
+
+
 0.02    2013-04-03 (SHARYANTO)
 
         - Add options: -1, -3, -y, -h, -L.
