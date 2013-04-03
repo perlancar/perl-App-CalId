@@ -227,6 +227,6 @@ command-line.
 
 =head2 gen_monthly_calendar
 
-=head2 gen_yearly_calendar
+=head2 gen_calendar
 
 =cut
