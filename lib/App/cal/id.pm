@@ -174,6 +174,10 @@ sub gen_calendar {
         push @lines, _center(64, $y);
     }
     $m or return [400, "Please specify month"];
+    if ($mm > 1) {
+        $margs{show_prev_month_days} = 0;
+        $margs{show_next_month_days} = 0;
+    }
 
     my @moncals;
     my $dt = DateTime->new(year=>$y, month=>$m, day => 1);
