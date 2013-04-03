@@ -1,0 +1,59 @@
+#!/usr/bin/perl
+
+use 5.010001;
+use strict;
+use warnings;
+#use Log::Any '$log';
+
+use App::cal::id;
+use DateTime;
+use Getopt::Long;
+
+# VERSION
+
+# GetOptions(...);
+
+my $dt_now = DateTime->now;
+
+if (@ARGV == 1) {
+    say App::cal::id::gen_yearly_calendar(year => $ARGV[0]);
+} elsif (@ARGV == 2) {
+    say App::cal::id::gen_monthly_calendar(
+        month => $ARGV[0], year => $ARGV[1]);
+} else {
+    say App::cal::id::gen_monthly_calendar(
+        month => $dt_now->month, year => $dt_now->year);
+}
+
+1;
+# ABSTRACT: Display Indonesian calendar on the command-line
+# PODNAME: cal-id
+
+=head1 SYNOPSIS
+
+ # show calendar for the current month
+ % cal-id
+
+ # show calendar for the whole year
+ % cal-id 2013
+
+ # show calendar for a certain month and year
+ % cal-id 12 2013
+
+
+=head1 DESCRIPTION
+
+This command provides a small subset of B<cal> functionality for displaying
+Indonesian calendar. It starts week at Monday and highlights (and lists)
+Indonesian holidays.
+
+Background: I needed a quick and easy way to see monthly (and sometimes yearly)
+calendar, since I haven't got a desk calendar on my desk for years (decades,
+even).
+
+
+=head1 SEE ALSO
+
+L<Calendar::Indonesia::Holiday>
+
+=cut
