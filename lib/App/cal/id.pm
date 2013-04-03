@@ -179,13 +179,16 @@ sub gen_yearly_calendar {
         );
     }
     my $l = max(map {~~@$_} @moncals[1..12]);
-    push @lines, sprintf("%s  %s  %s", _rpad(21, $moncals[ 1][$_]//""), _rpad(21, $moncals[ 2][$_]//""), _rpad(21, $moncals[ 3][$_]//"")) for 0..$l-1;
-    push @lines, "";
-    push @lines, sprintf("%s  %s  %s", _rpad(21, $moncals[ 4][$_]//""), _rpad(21, $moncals[ 5][$_]//""), _rpad(21, $moncals[ 6][$_]//"")) for 0..$l-1;
-    push @lines, "";
-    push @lines, sprintf("%s  %s  %s", _rpad(21, $moncals[ 7][$_]//""), _rpad(21, $moncals[ 8][$_]//""), _rpad(21, $moncals[ 9][$_]//"")) for 0..$l-1;
-    push @lines, "";
-    push @lines, sprintf("%s  %s  %s", _rpad(21, $moncals[10][$_]//""), _rpad(21, $moncals[11][$_]//""), _rpad(21, $moncals[12][$_]//"")) for 0..$l-1;
+    for my $i (0..3) {
+        for (0..$l-1) {
+            push @lines,
+                sprintf("%s %s %s",
+                        _rpad(21, $moncals[$i*3+1][$_]//""),
+                        _rpad(21, $moncals[$i*3+2][$_]//""),
+                        _rpad(21, $moncals[$i*3+3][$_]//""));
+        }
+        push @lines, "" unless $i == 3;
+    }
 
     if ($args{show_holiday_list} // 1) {
         for my $i (0..@$hol-1) {
