@@ -63,9 +63,9 @@ say $res->[2];
 
 =head1 DESCRIPTION
 
-This command provides a small subset of B<cal> functionality for displaying
-Indonesian calendar. It starts week at Monday and highlights (and lists)
-Indonesian holidays.
+This command provides a subset of B<cal> functionality for displaying Indonesian
+calendar. It starts the week at Monday and highlights (and lists) Indonesian
+holidays.
 
 Background: I needed a quick and easy way to see monthly (and sometimes yearly)
 calendar, since I haven't got a desk calendar on my desk for years (decades,
@@ -81,7 +81,7 @@ supported/recognized. Some options are specific to B<cal-id>.
 
 =head2 -1
 
-Show single calendar (the default).
+Show a single month of calendar (the default).
 
 =head2 -3
 
