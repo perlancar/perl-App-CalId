@@ -65,7 +65,7 @@ _
             schema => [bool => default => 1],
         },
     },
-    "_perinci.sub.wrapper.validate_args" => 1,
+    "_perinci.sub.wrapper.validate_args" => 0,
     result_naked => 1,
 };
 sub gen_monthly_calendar {
@@ -154,7 +154,7 @@ _
             schema => [bool => default => 1],
         },
     },
-    "_perinci.sub.wrapper.validate_args" => 1,
+    "_perinci.sub.wrapper.validate_args" => 0,
 };
 sub gen_calendar {
     my %args = @_; # VALIDATE_ARGS
