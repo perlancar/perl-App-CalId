@@ -229,8 +229,4 @@ command-line.
 
 =head1 FUNCTIONS
 
-=head2 gen_monthly_calendar
-
-=head2 gen_calendar
-
 =cut
