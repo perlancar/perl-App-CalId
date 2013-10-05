@@ -1,10 +1,15 @@
 Revision history for App-cal-id
 
+0.04    2013-10-05 (SHARYANTO)
+
+        - Add option --show-joint-leave.
+
+
 0.03    2013-04-03 (SHARYANTO)
 
-        No functional changes. Some display tweaks (short day of week names, not
-        showing prev/next month's days if we are showing more than one month of
-        calendar).
+        - No functional changes. Some display tweaks (short day of week names,
+          not showing prev/next month's days if we are showing more than one
+          month of calendar).
 
 
 0.02    2013-04-03 (SHARYANTO)
@@ -14,4 +19,4 @@ Revision history for App-cal-id
 
 0.01    2013-04-03 (SHARYANTO)
 
-        First release.
+        - First release.
