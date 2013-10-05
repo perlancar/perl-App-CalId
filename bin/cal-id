@@ -19,6 +19,7 @@ GetOptions(
     '1' => sub { $args{months} = 1  },
     '3' => sub { $args{months} = 3  },
     'y' => sub { $args{months} = 12 },
+    'show-joint-leave' => sub { $args{show_joint_leave} = 1 },
 );
 
 my $dt = DateTime->now;
@@ -98,6 +99,11 @@ Show one year (12 months) of calendar (the default if only year is specified).
 =head2 --noshow-holiday-list (-L)
 
 Turn off showing list of holidays.
+
+=head2 --show-joint-leave
+
+Turn on showing list of joint leaves (cuti bersama). By default it is turned
+off.
 
 
 =head1 SEE ALSO

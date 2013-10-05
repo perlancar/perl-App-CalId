@@ -61,6 +61,9 @@ _
         show_holiday_list => {
             schema => ['bool', default => 1],
         },
+        show_joint_leave => {
+            schema => ['bool', default => 0],
+        },
         highlight_today => {
             schema => [bool => default => 1],
         },
@@ -77,7 +80,10 @@ sub gen_monthly_calendar {
     my $dt  = DateTime->new(year => $y, month => $m, day => 1);
     my $dtl = DateTime->last_day_of_month(year => $y, month => $m);
     my $dt_today = DateTime->today;
-    my $hol = list_id_holidays(year=>$y, month=>$m, is_joint_leave=>0, detail=>1)->[2];
+    my $hol = list_id_holidays(
+        detail => 1, year => $y, month => $m,
+        (is_joint_leave => 0) x !$args{show_joint_leave},
+    )->[2];
 
     # XXX use locale
     if ($args{show_year_in_title} // 1) {
@@ -150,6 +156,9 @@ _
         show_holiday_list => {
             schema => ['bool', default => 1],
         },
+        show_joint_leave => {
+            schema => ['bool', default => 0],
+        },
         highlight_today => {
             schema => [bool => default => 1],
         },
@@ -166,6 +175,7 @@ sub gen_calendar {
 
     my %margs = (
         highlight_today => ($args{highlight_today} // 1),
+        show_joint_leave => $args{show_joint_leave},
     );
 
     if ($mm == 12 && !$m) {
