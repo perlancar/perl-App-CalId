@@ -1,5 +1,10 @@
 Revision history for App-cal-id
 
+0.05    2013-10-31 (SHARYANTO)
+
+        - Add option 'time_zone' and defaults to $ENV{TZ}.
+
+
 0.04    2013-10-05 (SHARYANTO)
 
         - Add option --show-joint-leave.
