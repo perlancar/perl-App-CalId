@@ -67,6 +67,9 @@ _
         highlight_today => {
             schema => [bool => default => 1],
         },
+        time_zone => {
+            schema => 'str*',
+        },
     },
     "_perinci.sub.wrapper.validate_args" => 0,
     result_naked => 1,
@@ -77,9 +80,10 @@ sub gen_monthly_calendar {
     my $y = $args{year};
 
     my @lines;
-    my $dt  = DateTime->new(year => $y, month => $m, day => 1);
-    my $dtl = DateTime->last_day_of_month(year => $y, month => $m);
-    my $dt_today = DateTime->today;
+    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
+    my $dt  = DateTime->new(year=>$y, month=>$m, day=>1, time_zone=>$tz);
+    my $dtl = DateTime->last_day_of_month(year=>$y, month=>$m, time_zone=>$tz);
+    my $dt_today = DateTime->today(time_zone=>$tz);
     my $hol = list_id_holidays(
         detail => 1, year => $y, month => $m,
         (is_joint_leave => 0) x !$args{show_joint_leave},
@@ -162,6 +166,9 @@ _
         highlight_today => {
             schema => [bool => default => 1],
         },
+        time_zone => {
+            schema => 'str*',
+        },
     },
     "_perinci.sub.wrapper.validate_args" => 0,
 };
@@ -170,6 +177,7 @@ sub gen_calendar {
     my $y  = $args{year};
     my $m  = $args{month};
     my $mm = $args{months} // 1;
+    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
 
     my @lines;
 
@@ -190,10 +198,10 @@ sub gen_calendar {
     }
 
     my @moncals;
-    my $dt = DateTime->new(year=>$y, month=>$m, day => 1);
+    my $dt = DateTime->new(year=>$y, month=>$m, day=>1, time_zone=>$tz);
     for (1..$mm) {
         push @moncals, gen_monthly_calendar(
-            month=>$dt->month, year=>$dt->year, %margs);
+            month=>$dt->month, year=>$dt->year, time_zone=>$tz, %margs);
         $dt->add(months => 1);
     }
     my @hol = map {@{ $_->[1] }} @moncals;
