@@ -3,6 +3,7 @@ package App::cal::id;
 use 5.010001;
 use strict;
 use warnings;
+use experimental 'smartmatch';
 
 use Calendar::Indonesia::Holiday qw(list_id_holidays);
 use DateTime;
