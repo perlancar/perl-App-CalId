@@ -1,5 +1,16 @@
 Revision history for App-CalId
 
+0.07    2014-06-19 (SHARYANTO)
+
+        - No functional changes.
+
+        - Rename dist from App-cal-id to App-CalId to follow my convention as
+          follow: "For app dist, if binary name is a single word (e.g. foo) then
+          module name is App::foo and dist name App-foo. If binary is a multiple
+          word (e.g. foo-bar-baz) or there are multiple binaries, then module
+          name becomes camel case App::FooBarBaz and dist App-FooBarBaz."
+
+
 0.06    2014-05-26 (SHARYANTO)
 
         - No functional changes.
