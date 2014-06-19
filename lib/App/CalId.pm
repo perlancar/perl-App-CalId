@@ -1,4 +1,4 @@
-package App::cal::id;
+package App::CalId;
 
 use 5.010001;
 use strict;

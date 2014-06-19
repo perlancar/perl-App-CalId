@@ -5,7 +5,7 @@ use strict;
 use warnings;
 #use Log::Any '$log';
 
-use App::cal::id;
+use App::CalId;
 use DateTime;
 use Getopt::Long;
 
@@ -42,7 +42,7 @@ if ($args{months} == 3) {
     $args{year}  = $dt->year;
 }
 
-my $res = App::cal::id::gen_calendar(%args);
+my $res = App::CalId::gen_calendar(%args);
 die $res->[1] unless $res->[0] == 200;
 say $res->[2];
 
