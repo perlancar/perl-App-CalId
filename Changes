@@ -1,5 +1,11 @@
 Revision history for App-CalId
 
+0.08    2014-09-06 (PERLANCAR)
+
+	- Adjust to Perinci::Sub::Wrapper 0.62
+	  (_perinci.sub.wrapper.validate_args is now renamed).
+
+
 0.07    2014-06-19 (SHARYANTO)
 
         - No functional changes.
