@@ -74,7 +74,7 @@ calendar, since I haven't got a desk calendar on my desk for years (decades,
 even).
 
 
-=head1 COMMAND-LINE OPTIONS
+=head1 OPTIONS
 
  % cal-id [opts] [[month] year]
 
