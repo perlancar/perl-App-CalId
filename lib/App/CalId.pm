@@ -1,5 +1,8 @@
 package App::CalId;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use strict;
 use warnings;
@@ -11,12 +14,15 @@ use List::Util qw(max);
 use Term::ANSIColor;
 use Text::ANSI::Util qw(ta_length);
 
-# VERSION
-
 my $month_names = [qw(Januari Februari Maret April Mei Juni Juli Agustus September Oktober November Desember)];
 my $short_month_names = [qw(Jan Feb Mar Apr Mei Jun Jul Agt Sep Okt Nov Des)];
 
 our %SPEC;
+
+$SPEC{':package'} = {
+    v => 1.1,
+    summary => 'Display Indonesian calendar on the command-line',
+};
 
 sub _center {
     my ($w, $text) = @_;
@@ -233,7 +239,7 @@ sub gen_calendar {
 }
 
 1;
-#ABSTRACT: Display Indonesian calendar on the command-line
+#ABSTRACT:
 
 =head1 SYNOPSIS
 
