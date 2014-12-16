@@ -49,7 +49,7 @@ say $res->[2];
 
 1;
 # ABSTRACT: Display Indonesian calendar on the command-line
-# PODNAME: cal-id
+# PODNAME:
 
 =head1 SYNOPSIS
 
