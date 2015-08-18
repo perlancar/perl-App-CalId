@@ -251,7 +251,4 @@ sub gen_calendar {
 This module provides the B<cal-id> command to display Indonesian calendar on the
 command-line.
 
-
-=head1 FUNCTIONS
-
 =cut
