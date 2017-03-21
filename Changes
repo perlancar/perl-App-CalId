@@ -1,3 +1,10 @@
+0.12    2017-03-21 (PERLANCAR)
+
+        - No functional changes.
+
+        - [build] Rebuild to remove unneeded dependency on Perl::osnames.
+
+
 0.11    2015-12-17 (PERLANCAR)
 
 	- No functional changes.
