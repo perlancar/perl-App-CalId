@@ -1,6 +1,8 @@
 #!perl
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
@@ -21,7 +23,7 @@ GetOptions(
     '3' => sub { $args{months} = 3  },
     'y' => sub { $args{months} = 12 },
     'show-joint-leave' => sub { $args{show_joint_leave} = 1 },
-);
+) or die "cal-id: Error in option parsing, bailing out\n";
 
 my $dt = DateTime->now;
 
